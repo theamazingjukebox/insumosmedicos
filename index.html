@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insumos Médicos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('Medical-Device-Design-and-Development-A-Definitive-Guide-for-Medtech-Professionals.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: repeat;
+            color: white;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 5px;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            position: relative;
+            font-size: larger;
+}
+
+#imagen1 {
+    position: absolute;
+    top: 35%;
+    left: 460px;  /* Puedes ajustar este valor según sea necesario */
+    transform: translateY(-50%);
+    max-height: 50px;  /* Ajusta el tamaño máximo de la imagen */
+}
+
+#imagen2 {
+    position: absolute;
+    top: 42%;
+    left: 610px;  /* Puedes ajustar este valor según sea necesario */
+    transform: translateY(-50%);
+    max-height: 35px;  /* Ajusta el tamaño máximo de la imagen */
+}
+
+        #categories-bar {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            margin-top: -15px;
+            
+        }
+
+        #categories-bar a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        #categories-bar a:hover {
+            color: aqua;
+        }
+
+        .category {
+            display: none;
+            flex-wrap: wrap;
+            flex-direction: column;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+
+        .product {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px;
+            text-align: center;
+            width: 200px;
+            cursor: pointer;
+            background-color: #888;
+            transition: background-color 0.3s;
+        }
+
+        .product:hover {
+            background-color: aqua;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.7);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+
+        #cart {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+            cursor: pointer;
+        border: none;
+        border-radius: 5px;
+        z-index: 999;
+        font-size: 1.5em; /* Tamaño del texto */
+    }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .cart-button {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            z-index: 999;
+        }
+
+        /* Estilos para el modal de detalles */
+#product-details {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.modal-content {
+    background-color: #888;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 40%;
+}
+
+/* Estilo para el botón de cerrar */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Estilos para los botones de acción en el modal */
+.modal-content button {
+    padding: 10px;
+    margin: 5px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.modal-content button:hover {
+    background-color: #555;
+    color: white;
+}
+
+#productDetailImage {
+    max-width: 30%; /* Establece el ancho máximo al 100% del contenedor */
+    height: auto; /* Permite que la altura se ajuste automáticamente para mantener la proporción */
+}
+
+/* Agrega estilos al cuadro de cantidad */
+#quantity {
+    width: 50px; /* Modifica el ancho según tus preferencias */
+    padding: 5px;
+    font-size: 14px;
+    margin-left: 10px; /* Añade margen izquierdo para separar del botón */
+}
+
+/* Estilos para el contenedor de cantidad */
+.quantity-container {
+    display: flex;
+    align-items: center;
+    margin-top: 10px; /* Ajusta el margen superior según tus preferencias */
+}
+
+#about-us {
+    display: none;
+    color: white;
+    text-align: left;
+    padding: 20px;
+    margin: 10px;
+    background-color: rgba(0, 0, 0, 0.8);
+    border-radius: 10px;
+    font-size: 200%;
+}
+
+#about-us p {
+    margin-bottom: 10px;
+}
+
+#about-us a {
+    color: aqua;
+    text-decoration: underline;
+}
+
+#contact {
+    display: none;
+    color: white;
+    text-align: left;
+    padding: 20px;
+    margin: 10px;
+    background-color: rgba(0, 0, 0, 0.8);
+    border-radius: 10px;
+    font-size: 150%;
+}
+
+#contact p {
+    margin-bottom: 10px;
+}
+
+#contact a {
+    color: aqua;
+    text-decoration: underline;
+}
+
+#cart-container {
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #333;
+    padding: 0px; /* Puedes ajustar el relleno según tus necesidades */
+    width: 30%; /* Ajusta el ancho según tus necesidades */
+    height: auto; /* Deja que la altura sea dinámica */
+}
+
+
+#purchase-summary {
+        display: none;
+        background-color: #333;
+        color: white;
+        padding: 10px;
+        text-align: center;
+        margin-top: 150px;
+        font-weight: bold;
+        max-width: 300px; /* Puedes ajustar este valor según tus preferencias */
+    margin-left: auto;
+    margin-right: auto;
+    }
+
+
+    #paypal-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -10px;
+    transform: translate(-50%, -50%);
+    width: 450px;
+    height: 150px;
+    overflow-y: auto;
+}
+
+#close-cart {
+    display: none;
+    background-color: #333;
+    color: white;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+}
+
+.hidden {
+    display: none;
+}
+
+#close-paypal {
+    position: absolute; /* Permite posicionar el botón de forma absoluta */
+    left: 50%; /* Coloca el botón en el 50% del contenedor */
+    transform: translateX(-50%); /* Mueve el botón hacia la izquierda en un 50% de su propio ancho */
+    bottom: -20px; /* Ajusta la distancia del botón desde la parte inferior del contenedor */
+}
+
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>--</h1>
+        <img src="Logo4.png" alt="Primera Imagen del banner" id="imagen1">
+        <img src="Logoimed.png" alt="Segunda Imagen del banner" id="imagen2">
+        <div id="categories-bar">
+            <a onclick="showCategory('medicamentos')">Medicamentos</a>
+            <a onclick="showCategory('material')">Material de Curación</a>
+            <a onclick="showCategory('about-us')">Quiénes Somos</a>
+            <a onclick="showCategory('contact')">Contacto</a>
+        </div>
+    </header>
+
+    
+
+    <div id="medicamentos" class="category">
+        <div class="product" onclick="addToCart('CARDISPAN INY. 5ML C/5 (Laboratorios GROSSMAN)', 'Indicado en el tratamiento de la deficiencia de levocarnitina, y ampliamente usado en clínicas de MESOTERAPIA', './Cardispan2.jpeg', 20.99)">CARDISPAN INY. 5ML C/5<br>$20.99</div>
+        <div class="product" onclick="addToCart('WEMBLEY INY. 5ML C/5', 'Descripción del producto', './wembley.jpg', 15.49)">WEMBLEY INY. 5ML C/5<br>$15.49</div>
+        <div class="product" onclick="addToCart('DEXTREVIT INY.', 'Descripción del producto', './dextrevit.jpeg', 30.00)">DEXTREVIT INY.<br>$30.00</div>
+    <div class="product" onclick="addToCart('CYNOMEL TABS. C/100', 'Descripción del producto', './url_de_la_imagen', 25.99)">CYNOMEL TABS. C/100<br>$25.99</div>
+    <div class="product" onclick="addToCart('JERINGA 5ML BD', 'Descripción del producto', './url_de_la_imagen', 18.75)">JERINGA 5ML BD<br>$18.75</div>
+    </div>
+
+
+    <div id="material" class="category">
+        <!-- Botones de muestra para Material de Curación -->
+        <div class="product" onclick="addToCart('VENDA ADHESIVA', 5.99)">VENDA ADHESIVA<br>$5.99</div>
+        <div class="product" onclick="addToCart('ALGODÓN HIDRÓFILO', 8.49)">ALGODÓN HIDRÓFILO<br>$8.49</div>
+        <div class="product" onclick="addToCart('GASAS ESTÉRILES', 12.00)">GASAS ESTÉRILES<br>$12.00</div>
+        <div class="product" onclick="addToCart('APÓSITO ADHESIVO', 7.99)">APÓSITO ADHESIVO<br>$7.99</div>
+        <div class="product" onclick="addToCart('TIRITAS SURTIDAS', 6.75)">TIRITAS SURTIDAS<br>$6.75</div>
+    </div>
+
+    <div id="about-us" class="category">
+        <p>Somos una empresa de distribución médica establecida en el Estado de México en 2003. Nos dedicamos a proporcionar insumos médicos de alta calidad y a satisfacer las necesidades de nuestros clientes en el sector de la salud.</p>
+    </div>
+    
+    <div id="contact" class="category">
+        <p>Contáctanos:</p>
+        <p>Teléfono: (555) 123-4567</p>
+        <p>Dirección: Av. Ejemplo 123, Ciudad, Estado</p>
+        <p>Correo: info@tuempresa.com</p>
+    </div>
+    
+
+    <div id="product-details" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeProductDetails()">&times;</span>
+            <h2 id="productDetailName"></h2>
+            <p id="productDetailDescription"></p>
+            <img id="productDetailImage" src="" alt="Product Image">
+            <p id="productDetailPrice"></p>
+            <button onclick="addToCartFromDetails()">Añadir al Carrito</button>
+            <label for="quantity">Cantidad:</label>
+<input type="number" id="quantity" name="quantity" value="1" min="1">
+        </div>
+    </div>
+
+    <!-- Aquí añadir las otras categorías -->
+
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <p id="productDetailDescription"></p>
+<img id="productDetailImage" src="" alt="Product Image">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="modalProductName"></h2>
+            <p id="modalProductPrice"></p>
+            <button onclick="addToCartFromModal()">Añadir al Carrito</button>
+            <button onclick="closeProductDetails()">Cerrar</button>
+        </div>
+    </div>
+
+    <div id="cart-summary-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeCartSummary()">&times;</span>
+            <h2>Resumen del Carrito</h2>
+            <div id="cart-summary-content"></div>
+            <p id="total-amount"></p>
+            <button onclick="proceedToCheckout()">Proceder al Pago</button>
+            <button onclick="closeCartSummary()">Seguir Comprando</button>
+        </div>
+    </div>
+    
+    <!-- Modifica el botón del carrito de compras para que muestre el resumen del carrito -->
+    <div id="cart" class="cart-button" onclick="showCartSummary()">
+        Carrito de Compras 🛒
+    </div>
+
+    
+    <div id="cart-container">
+        <button id="close-cart" onclick="closeCart()">Cerrar Carrito</button>
+        <!-- Otros elementos del carrito aquí -->
+        <div id="purchase-summary">
+            <!-- Contenido del resumen aquí -->
+        </div>
+        <div id="paypal-container">
+            <div id="paypal-button-container" style="display: none;"></div>
+            <button id="close-paypal" class="hidden" onclick="closePaypal()">Cerrar PayPal</button>
+        </div>
+    </div>
+    <footer>
+        Información Adicional de la Empresa
+    </footer>
+
+    <script src="https://www.paypal.com/sdk/js?client-id=AeMuxM-Aw924PYHSdPNCOd-V1_sY9aD3Fl8WDzCVVBRpHXaUo69WmaESP70RPnd_Kuj5Que3654V-SZh"></script>
+
+    <script>
+        let cart = [];
+        let currentCategory = null;
+
+        function showCategory(category) {
+            // Si la categoría actual es la misma que la seleccionada, oculta la categoría.
+            if (currentCategory === category) {
+                document.getElementById(category).style.display = 'none';
+                currentCategory = null;
+            } else {
+                // Oculta la categoría actual.
+                if (currentCategory !== null) {
+                    document.getElementById(currentCategory).style.display = 'none';
+                }
+
+                // Muestra la nueva categoría y actualiza la categoría actual.
+                document.getElementById(category).style.display = 'flex';
+                if (category === 'about-us') {
+        document.getElementById('about-us').style.display = 'block';
+    } else {
+        document.getElementById(category).style.display = 'flex';
+    }
+    if (category === 'contact') {
+        document.getElementById('contact').style.display = 'block';
+    } else {
+        document.getElementById(category).style.display = 'flex';
+    }
+
+                currentCategory = category;
+            }
+        }
+
+        function addToCart(productName, description, imageUrl, price) {
+    openProductDetails(productName, description, imageUrl, price);
+}
+
+function totalAmount() {
+        // Implementa esta función para calcular el total del carrito
+        let total = 0;
+        for (let item of cart) {
+            total += item.price;
+        }
+        return total;
+    }
+
+    function resetQuantity() {
+        document.getElementById("quantity").value = 1;
+    }
+
+    let paypalInitialized = false;
+
+    function updatePurchaseSummary() {
+    // Obtén el elemento donde mostrarás el resumen
+    let summaryElement = document.getElementById('purchase-summary');
+
+    // Calcula el total
+    let total = totalAmount();
+
+    // Actualiza el contenido del resumen
+    summaryElement.innerHTML = `Total de la compra: $${total.toFixed(2)}`;
+}
+
+
+
+        function closeModal() {
+            document.getElementById("myModal").style.display = "none";
+        }
+
+        function addToCartFromModal() {
+            let productName = document.getElementById("modalProductName").innerHTML;
+            let priceString = document.getElementById("modalProductPrice").innerHTML;
+            let price = parseFloat(priceString.replace("Precio: $", ""));
+
+            cart.push({ productName, price });
+            alert(`Producto añadido al carrito: ${productName}`);
+            closeModal();
+        }
+
+        function addToCartFromDetails() {
+    let productName = document.getElementById("productDetailName").innerHTML;
+    let priceString = document.getElementById("productDetailPrice").innerHTML;
+    let price = parseFloat(priceString.replace("Precio: $", ""));
+    let quantity = parseInt(document.getElementById("quantity").value);
+
+    for (let i = 0; i < quantity; i++) {
+        cart.push({ productName, price });
+    }
+
+    alert(`Producto(s) añadido(s) al carrito: ${productName} (Cantidad: ${quantity})`);
+    closeProductDetails();
+    resetQuantity(); // Agrega esta línea para restablecer el contador
+}
+
+function resetQuantity() {
+    document.getElementById("quantity").value = 1;
+}
+
+
+        function openProductDetails(productName, description, imageUrl, price) {
+    document.getElementById("productDetailName").innerHTML = productName;
+    document.getElementById("productDetailDescription").innerHTML = description;
+    document.getElementById("productDetailImage").src = imageUrl;
+    document.getElementById("productDetailPrice").innerHTML = `Precio: $${price}`;
+    document.getElementById("product-details").style.display = "block";
+
+}
+
+function closeProductDetails() {
+    document.getElementById("product-details").style.display = "none";
+    resetQuantity();
+}
+
+// ...
+
+function showCartSummary() {
+    let summaryContent = document.getElementById('cart-summary-content');
+    let totalAmountElement = document.getElementById('total-amount');
+
+    // Limpia el contenido previo del resumen
+    summaryContent.innerHTML = '';
+
+    // Recorre el carrito y muestra los productos
+    cart.forEach(item => {
+        let productElement = document.createElement('div');
+        productElement.textContent = `${item.productName}: $${item.price.toFixed(2)}`;
+        summaryContent.appendChild(productElement);
+    });
+
+    // Calcula y muestra el total del carrito
+    let total = totalAmount();
+    totalAmountElement.textContent = `Total: $${total.toFixed(2)}`;
+
+    // Muestra la ventana modal del resumen del carrito
+    document.getElementById('cart-summary-modal').style.display = 'block';
+}
+
+function closeCartSummary() {
+    // Oculta la ventana modal del resumen del carrito
+    document.getElementById('cart-summary-modal').style.display = 'none';
+}
+
+function proceedToCheckout() {
+    // Aquí puedes agregar la lógica para proceder al pago
+    alert('Procediendo al pago...');
+    
+    if (cart.length === 0) {
+        alert("El carrito está vacío");
+    } else {
+        // Mostrar el modal del carrito
+        document.getElementById('cart-container').style.display = 'block';
+        
+        // Ocultar el modal del resumen del carrito al abrir el modal de PayPal
+        document.getElementById('cart-summary-modal').style.display = 'none';
+
+        if (!paypalInitialized) {
+            // Inicializa la integración de PayPal
+            paypal.Buttons({
+                createOrder: function(data, actions) {
+                    return actions.order.create({
+                        purchase_units: [{
+                            amount: {
+                                value: totalAmount()
+                            }
+                        }]
+                    });
+                },
+                onApprove: function(data, actions) {
+                    alert('Pago exitoso!');
+                }
+            }).render('#paypal-button-container');
+
+            paypalInitialized = true; // Marca la inicialización de PayPal
+        }
+        
+        // Muestra el resumen de compra y el contenedor de PayPal
+        document.getElementById('purchase-summary').style.display = 'block';
+        document.getElementById('paypal-button-container').style.display = 'block';
+        
+        // Muestra el botón "Cerrar PayPal" solo cuando se haya abierto el modal de PayPal
+        document.getElementById('close-paypal').classList.remove('hidden');
+
+        // Actualiza el resumen de la compra
+        updatePurchaseSummary();
+    }
+}
+
+
+        function closeModal() {
+            document.getElementById("myModal").style.display = "none";
+        }
+
+        function closePaypal() {
+    document.getElementById('cart-container').style.display = 'none';
+}
+
+
+    </script>
+</body>
+</html>
