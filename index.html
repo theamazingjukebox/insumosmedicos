@@ -18,36 +18,39 @@
             min-height: 100vh;
         }
 
-        @media (max-width: 768px) {
+        /* Estilos generales para dispositivos móviles */
+@media only screen and (max-width: 768px) {
     body {
-        background-image: url('Medical-Device-Design-and-Development-A-Definitive-Guide-for-Medtech-Professionals.jpg'); /* Cambia el nombre de la imagen */
-        background-size: cover;
-         background-position: center;
-        overflow-x: hidden; /* Evita el desplazamiento horizontal */
-        overflow-y: auto; /* Permite el desplazamiento vertical si es necesario */
-    }
-             header {
-        background-color: #333;
-            color: white;
-            text-align: center;
-            padding: 5px;
-            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-            position: relative;
-            font-size: larger;
+        /* Ajusta el tamaño del texto y otros estilos para dispositivos móviles */
+        font-size: 14px;
+         overflow-x: hidden;
     }
 
-    /* Centrar el contenido */
-    #categories-bar,
-    .category,
-    footer {
-        background-color: #333;
-            color: white;
-            text-align: center;
-            padding: 10px;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-        }
+    /* Ajusta el tamaño de las imágenes */
+    img {
+        max-width: 100%; /* Las imágenes se ajustarán al ancho del contenedor */
+        height: auto; /* Permite que la altura se ajuste automáticamente para mantener la proporción */
+    }
+
+    /* Ajusta el tamaño y el posicionamiento del encabezado */
+    header {
+        padding: 5px;
+    }
+
+    /* Ajusta el tamaño y la posición del logotipo */
+    #imagen1 {
+        top: 10%;
+        left: 10%;
+        max-height: 30px;
+    }
+
+    #imagen2 {
+        top: 20%;
+        left: 30%;
+        max-height: 25px;
+    }
+
+    /* Otros ajustes necesarios para dispositivos móviles */
 }
 
         header {
